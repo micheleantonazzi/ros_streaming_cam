@@ -193,7 +193,7 @@ void push_frame(const sensor_msgs::Image::ConstPtr& image, const boost::shared_p
 
 static void media_configure(GstRTSPMediaFactory*, GstRTSPMedia* media, Context* context) {
 
-    g_print(std::to_string(context->framerate).c_str());
+    g_print("First client connected, starting started");
 
     // Connect callback to media signals
     g_signal_connect(media, "new-state", (GCallback)change_state, context);
@@ -263,6 +263,6 @@ static void too_much_data(GstAppSrc*, Context* context) {
 }
 
 static void start_server(GMainLoop* loop){
-    g_print("stream ready at rtsp://127.0.0.1:8554/streaming_cam\n");
+    g_print("Stream ready at rtsp://127.0.0.1:8554/streaming_cam\n");
     g_main_loop_run(loop);
 }
