@@ -130,7 +130,7 @@ void store_parameters(Context* parameters){
         ROS_ERROR("Parameter height missing");
 
     // Pipeline parameters
-    nodeHandle.param<int>("framerate", parameters->framerate, 30);
+    nodeHandle.param<int>("framerate", parameters->framerate, 20);
 
     // Encoder parameters
     if(!nodeHandle.getParam("profile", parameters->profile))
@@ -181,7 +181,7 @@ void push_frame(const sensor_msgs::Image::ConstPtr& image, const boost::shared_p
         memmove(map.data, image->data.data(), gst_buffer_get_size(buffer));
 
         GST_BUFFER_PTS(buffer) = context->timestamp;
-        GST_BUFFER_DURATION(buffer) = gst_util_uint64_scale_int(1, GST_SECOND, context->framerate);
+        GST_BUFFER_DURATION(buffer) = gst_util_uint64_scale_int(1, GST_SECOND, context->timestamp);
         context->timestamp += GST_BUFFER_DURATION(buffer);
 
         g_signal_emit_by_name(context->appSrc, "push-buffer", buffer, &ret);
@@ -214,7 +214,7 @@ static void media_configure(GstRTSPMediaFactory*, GstRTSPMedia* media, Context* 
                                     "format", G_TYPE_STRING, context->color.c_str(),
                                     "width", G_TYPE_INT, context->width,
                                     "height", G_TYPE_INT, context->height,
-                                    "framerate", GST_TYPE_FRACTION, context->framerate, 1, NULL),
+                                    "framerate", GST_TYPE_FRACTION, 1, context->timestamp, NULL),
                 NULL);
 
 

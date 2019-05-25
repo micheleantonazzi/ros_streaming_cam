@@ -9,7 +9,7 @@
     <arg name="color" default="RGB" />
 
     <!-- Framerate of stream video -->
-    <arg name="framerate" default="30" />
+    <arg name="framerate" default="20" />
 
     <!-- Resolution of camera -->
     <arg name="width" default="640" />
@@ -45,7 +45,7 @@
         <param name="width" value="$(arg width)" />
         <param name="height" value="$(arg height)" />
 
-        <param name="profile" value="high-quality" />
+        <param name="profile" value="medium-quality" />
         <param name="subme" value="$(arg subme)" />
         <param name="quantizer" value="$(arg quantizer)" />
         <param name="threads" value="$(arg threads)" />
