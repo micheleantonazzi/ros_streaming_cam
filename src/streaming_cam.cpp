@@ -181,7 +181,7 @@ void push_frame(const sensor_msgs::Image::ConstPtr& image, const boost::shared_p
         memmove(map.data, image->data.data(), gst_buffer_get_size(buffer));
 
         GST_BUFFER_PTS(buffer) = context->timestamp;
-        GST_BUFFER_DURATION(buffer) = gst_util_uint64_scale_int(1, GST_SECOND, context->timestamp);
+        GST_BUFFER_DURATION(buffer) = gst_util_uint64_scale_int(1, GST_SECOND, context->framerate);
         context->timestamp += GST_BUFFER_DURATION(buffer);
 
         g_signal_emit_by_name(context->appSrc, "push-buffer", buffer, &ret);
@@ -193,7 +193,7 @@ void push_frame(const sensor_msgs::Image::ConstPtr& image, const boost::shared_p
 
 static void media_configure(GstRTSPMediaFactory*, GstRTSPMedia* media, Context* context) {
 
-    ROS_INFO("First client connected, starting pipeline");
+    g_print(std::to_string(context->framerate).c_str());
 
     // Connect callback to media signals
     g_signal_connect(media, "new-state", (GCallback)change_state, context);
@@ -214,7 +214,7 @@ static void media_configure(GstRTSPMediaFactory*, GstRTSPMedia* media, Context* 
                                     "format", G_TYPE_STRING, context->color.c_str(),
                                     "width", G_TYPE_INT, context->width,
                                     "height", G_TYPE_INT, context->height,
-                                    "framerate", GST_TYPE_FRACTION, 1, context->timestamp, NULL),
+                                    "framerate", GST_TYPE_FRACTION, 1, context->framerate, NULL),
                 NULL);
 
 

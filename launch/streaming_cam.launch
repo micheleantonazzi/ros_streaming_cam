@@ -38,7 +38,7 @@
     -->
     <arg name="threads" value="" />
 
-    <node pkg="ros_streaming_cam" type="streaming_cam" name="streaming_cam">
+    <node pkg="ros_streaming_cam" type="streaming_cam" name="streaming_cam" output="screen">
         <param name="topic" value="$(arg topic)" />
         <param name="color" value="$(arg color)" />
         <param name="framerate" value="$(arg framerate)" />
