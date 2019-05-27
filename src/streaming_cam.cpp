@@ -10,6 +10,11 @@
 
 
 #include <thread>
+#include <sys/types.h>
+#include <ifaddrs.h>
+#include <netinet/in.h>
+#include <string.h>
+#include <arpa/inet.h>
 
 using namespace ros;
 using std::string;
@@ -263,6 +268,30 @@ static void too_much_data(GstAppSrc*, Context* context) {
 }
 
 static void start_server(GMainLoop* loop){
-    g_print("Stream ready at rtsp://127.0.0.1:8554/streaming_cam\n");
+    struct ifaddrs* ifAddrStruct = NULL;
+    struct ifaddrs* ifa = NULL;
+    void* tmpAddrPtr = NULL;
+    char* addressBuffer;
+
+    getifaddrs(&ifAddrStruct);
+
+    for (ifa = ifAddrStruct; ifa != NULL; ifa = ifa->ifa_next) {
+        if (!ifa->ifa_addr) {
+            continue;
+        }
+        // Check it is IP4
+        if (ifa->ifa_addr->sa_family == AF_INET) {
+            tmpAddrPtr = &((struct sockaddr_in *)ifa->ifa_addr)->sin_addr;
+            addressBuffer = new char[INET_ADDRSTRLEN];
+            inet_ntop(AF_INET, tmpAddrPtr, addressBuffer, INET_ADDRSTRLEN);
+        } else if (ifa->ifa_addr->sa_family == AF_INET6) { // check it is IP6
+            tmpAddrPtr = &((struct sockaddr_in6 *)ifa->ifa_addr)->sin6_addr;
+            char addressBuffer[INET6_ADDRSTRLEN];
+            inet_ntop(AF_INET6, tmpAddrPtr, addressBuffer, INET6_ADDRSTRLEN);
+        }
+    }
+    if (ifAddrStruct!=NULL) freeifaddrs(ifAddrStruct);
+
+    printf("Stream ready at rtsp://%s:8554/streaming_cam\n", addressBuffer);
     g_main_loop_run(loop);
 }
