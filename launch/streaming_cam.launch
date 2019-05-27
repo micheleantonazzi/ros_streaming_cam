@@ -2,14 +2,17 @@
 
     <!-- Parameters -->
 
+    <!-- URL -->
+    <arg name="url" default="/streaming_cam" />
+
     <!-- Topic from which to take the frames -->
-    <arg name="topic" default="/usb_cam/image_raw" />
+    <arg name="topic" default="usb_cam/image_raw" />
 
     <!-- Color format -->
     <arg name="color" default="RGB" />
 
     <!-- Framerate of stream video -->
-    <arg name="framerate" default="20" />
+    <arg name="framerate" default="30" />
 
     <!-- Resolution of camera -->
     <arg name="width" default="640" />
@@ -21,31 +24,32 @@
             - low quality
             - customized
     -->
-    <arg name="profile" default="medium-quality" />
+    <arg name="profile" default="customized" />
 
     <!-- Subpixel motion estimation and partition decision quality: (fast - worst) 1 <= x <= 10 (slow - best)
          NB: used only in customized mode
     -->
-    <arg name="subme" value="" />
+    <arg name="subme" value="9" />
 
     <!-- Constant quantizer or quality to apply. (high quality) 1 <= x <= 50 (low quality)
          NB: used only in customized mode
     -->
-    <arg name="quantizer" value="" />
+    <arg name="quantizer" value="50" />
 
     <!-- Number of threads used by the encoder (0 = auto)
          NB: used only in customized mode
     -->
-    <arg name="threads" value="" />
+    <arg name="threads" value="0" />
 
     <node pkg="ros_streaming_cam" type="streaming_cam" name="streaming_cam" output="screen">
+        <param name="url" value="$(arg url)" />
         <param name="topic" value="$(arg topic)" />
         <param name="color" value="$(arg color)" />
         <param name="framerate" value="$(arg framerate)" />
         <param name="width" value="$(arg width)" />
         <param name="height" value="$(arg height)" />
 
-        <param name="profile" value="medium-quality" />
+        <param name="profile" value="$(arg profile)" />
         <param name="subme" value="$(arg subme)" />
         <param name="quantizer" value="$(arg quantizer)" />
         <param name="threads" value="$(arg threads)" />

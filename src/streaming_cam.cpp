@@ -8,12 +8,10 @@
 #include <gst/rtsp-server/rtsp-media-factory.h>
 #include <gst/app/app.h>
 
-
 #include <thread>
 #include <sys/types.h>
 #include <ifaddrs.h>
 #include <netinet/in.h>
-#include <string.h>
 #include <arpa/inet.h>
 
 using namespace ros;
@@ -32,6 +30,7 @@ typedef struct {
     GstElement* appSrc;
 
     // Parameters
+    string url;
 
     // The topic from which to take frames
     string topic;
@@ -74,7 +73,7 @@ static void need_data(GstAppSrc*, guint, Context*);
 static void too_much_data(GstAppSrc*, Context*);
 
 // This function is call in a separate thread and it starts the server
-static void start_server(GMainLoop*);
+static void start_server(GMainLoop*, Context*);
 
 int main(int argc, char **argv){
 
@@ -104,7 +103,7 @@ int main(int argc, char **argv){
     // A single factory (pipeline) shared by all clients
     gst_rtsp_media_factory_set_shared(factory, TRUE);
 
-    gst_rtsp_mount_points_add_factory(mountPoints, "/streaming_cam", factory);
+    gst_rtsp_mount_points_add_factory(mountPoints, context->url.c_str(), factory);
 
     g_object_unref(mountPoints);
 
@@ -117,13 +116,16 @@ int main(int argc, char **argv){
     Subscriber subscriber = node.subscribe<sensor_msgs::Image>(context->topic, 1000,
             boost::bind(push_frame, _1, ptrContext));
 
-    std::thread startServer(start_server, loop);
+    std::thread startServer(start_server, loop, context);
 
     ros::spin();
 }
 
 void store_parameters(Context* parameters){
     ros::NodeHandle nodeHandle("~");
+
+    // URL
+    nodeHandle.param<string>("url", parameters->url, "/streaming_cam");
 
     // Camera paramters
     if(!nodeHandle.getParam("topic", parameters->topic))
@@ -267,7 +269,7 @@ static void too_much_data(GstAppSrc*, Context* context) {
     context->full = true;
 }
 
-static void start_server(GMainLoop* loop){
+static void start_server(GMainLoop* loop, Context* context){
     struct ifaddrs* ifAddrStruct = NULL;
     struct ifaddrs* ifa = NULL;
     void* tmpAddrPtr = NULL;
@@ -292,6 +294,6 @@ static void start_server(GMainLoop* loop){
     }
     if (ifAddrStruct!=NULL) freeifaddrs(ifAddrStruct);
 
-    printf("Stream ready at rtsp://%s:8554/streaming_cam\n", addressBuffer);
+    printf("Stream ready at rtsp://%s:8554%s\n", addressBuffer, context->url.c_str());
     g_main_loop_run(loop);
 }
