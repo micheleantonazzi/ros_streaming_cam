@@ -19,5 +19,3 @@ In the launch file there are a lot parameters to configure the package and tune 
 * **subme:** subpixel motion estimation and partition decision quality: (fast - worst) 1 <= x <= 10 (slow - best)
 * **quantizer:** constant quantizer or quality to apply: (high quality) 1 <= x <= 50 (low quality)
 * **threads:** Number of threads used by the encoder (0 = auto)
-
-The stream is published in rtsp://{ip}:8554{url}. Open a client 
