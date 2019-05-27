@@ -11,12 +11,12 @@
     <!-- Color format -->
     <arg name="color" default="RGB" />
 
-    <!-- Framerate of stream video -->
-    <arg name="framerate" default="30" />
-
     <!-- Resolution of camera -->
     <arg name="width" default="640" />
     <arg name="height" default="480" />
+
+    <!-- Framerate of stream video -->
+    <arg name="framerate" default="30" />
 
     <!-- Profile of encoder
             - high-quality
