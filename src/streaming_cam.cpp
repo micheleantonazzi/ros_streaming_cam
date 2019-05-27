@@ -73,11 +73,11 @@ static void start_server(GMainLoop*);
 
 int main(int argc, char **argv){
 
-    // Init GStreamer
-    gst_init(NULL, NULL);
-
     // Init ROS
     ros::init(argc, argv, "streaming_cam");
+
+    // Init GStreamer
+    gst_init(NULL, NULL);
 
     Context* context = new Context();
 
