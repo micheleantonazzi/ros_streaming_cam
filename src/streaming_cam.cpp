@@ -193,7 +193,7 @@ void push_frame(const sensor_msgs::Image::ConstPtr& image, const boost::shared_p
 
 static void media_configure(GstRTSPMediaFactory*, GstRTSPMedia* media, Context* context) {
 
-    g_print("First client connected, starting started");
+    g_print("First client connected, pipeline started\n");
 
     // Connect callback to media signals
     g_signal_connect(media, "new-state", (GCallback)change_state, context);
