@@ -24,17 +24,17 @@
             - low quality
             - customized
     -->
-    <arg name="profile" default="customized" />
+    <arg name="profile" default="low-quality" />
 
     <!-- Subpixel motion estimation and partition decision quality: (fast - worst) 1 <= x <= 10 (slow - best)
          NB: used only in customized mode
     -->
-    <arg name="subme" value="9" />
+    <arg name="subme" value="5" />
 
     <!-- Constant quantizer or quality to apply. (high quality) 1 <= x <= 50 (low quality)
          NB: used only in customized mode
     -->
-    <arg name="quantizer" value="50" />
+    <arg name="quantizer" value="21" />
 
     <!-- Number of threads used by the encoder (0 = auto)
          NB: used only in customized mode
