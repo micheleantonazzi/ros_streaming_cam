@@ -1,5 +1,5 @@
 # Ros Streaming Cam
-This ROS package creates a RTSP server to stream a camera video through the network to stream a camera video. It uses Gstreamer v1.0 then, in order to compile and use this package, it has to be correctly installed. Note that also *dev* libraries are necessary. In Ubuntu open a terminal and type:
+This ROS package creates a RTSP server to stream a camera video through the network. It uses Gstreamer v1.0 then, in order to compile and use this package, it has to be correctly installed. Note that also *dev* libraries are necessary. In Ubuntu open a terminal and type:
 
 ```sudo apt-get install apt-get install libgstreamer1.0-0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-rtsp gstreamer1.0-libav gstreamer1.0-tool libgstreamer-plugins-good1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-bad1.0-dev   ``` 
 
