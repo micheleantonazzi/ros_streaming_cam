@@ -14,11 +14,11 @@ find_package(catkin REQUIRED COMPONENTS
 # GStreamer
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(GLIB REQUIRED glib-2.0)
-pkg_check_modules(GST REQUIRED gstreamer-1.0>=1.6
-        gstreamer-sdp-1.0>=1.4
-        gstreamer-video-1.0>=1.4
-        gstreamer-app-1.0>=1.4
-        gstreamer-rtsp-server-1.0>=1.4)
+pkg_check_modules(GST REQUIRED gstreamer-1.0
+        gstreamer-sdp-1.0
+        gstreamer-video-1.0
+        gstreamer-app-1.0
+        gstreamer-rtsp-server-1.0)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
